@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('cocktails', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->string('id', 15);
             $table->string('name', 100);
             $table->string('recipe', 600);
             $table->string('image', 400);
