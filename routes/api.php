@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\CocktailController;
+use App\Http\Controllers\Api\CocktailController;
 use Illuminate\Support\Facades\Route;
 
 /*
