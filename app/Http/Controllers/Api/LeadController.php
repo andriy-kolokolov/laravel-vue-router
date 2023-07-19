@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Lead;
 use App\Mail\MailToLead;
+use App\Mail\MailToAdmin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
@@ -48,7 +49,7 @@ class LeadController extends Controller
 
         // inviare la mail all'amministratore per gestire la richiesta del lead
 
-        // Mail::to(env('ADMIN_ADDRESS', 'admin@boolpress.com'))->send(new MailToAdmin($newLead));
+        Mail::to(env('ADMIN_ADDRESS', 'admin@boolpress.com'))->send(new MailToAdmin($newLead));
 
         // ritornare un valore di successo al frontend
 
