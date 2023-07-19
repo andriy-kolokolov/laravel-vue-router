@@ -8,8 +8,8 @@ use App\Models\Cocktail;
 class CocktailController extends Controller
 {
     public function index() {
-        $coctails = Cocktail::paginate(12);
-        return response()->json($coctails);
+        $cocktails = Cocktail::paginate(12);
+        return response()->json($cocktails);
     }
 
     public function show(Cocktail $cocktail) {
