@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\Api\CocktailController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\LeadController;
+use App\Http\Controllers\Api\CocktailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +20,5 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::get('cocktails', [CocktailController::class, 'index'])->name('api.cocktails.index');
+
+Route::post('leads/', [LeadController::class, 'store'])->name('api.leads.store');
