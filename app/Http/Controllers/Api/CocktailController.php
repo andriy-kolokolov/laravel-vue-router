@@ -12,8 +12,15 @@ class CocktailController extends Controller {
         return response()->json($cocktails);
     }
 
-    public function show(Cocktail $cocktail) {
+    public function show($id) {
+        // Use Eloquent to find the cocktail by its ID in the database
+        $cocktail = Cocktail::find($id);
 
+        if (!$cocktail) {
+            return response()->json(['error' => 'Cocktail not found'], 404);
+        }
+
+        return response()->json(['data' => $cocktail]);
     }
 
     public function search(Request $request) {
