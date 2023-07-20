@@ -30,7 +30,7 @@ class CocktailController extends Controller
     {
         $cocktail = Cocktail::inRandomOrder()->first();
 
-        return response()->json($cocktail);
+        return response()->json(['data' => $cocktail]);
     }
 
     public function search(Request $request)
