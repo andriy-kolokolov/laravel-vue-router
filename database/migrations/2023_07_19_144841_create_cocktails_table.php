@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('cocktails', function (Blueprint $table) {
             $table->string('id', 15);
             $table->string('name', 100);
+            $table->string('alcoholic', 400);
             $table->text('recipe');
             $table->string('image', 400);
         });

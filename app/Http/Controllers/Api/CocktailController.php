@@ -48,6 +48,7 @@ class CocktailController extends Controller {
                         $cocktail->name = $apiCocktail['strDrink'];
                         $cocktail->recipe = $apiCocktail['strInstructions'];
                         $cocktail->image = $apiCocktail['strDrinkThumb'];
+                        $cocktail->alcoholic = $apiCocktail['strAlcoholic'];
 
                         // Save the cocktail to the database
                         $cocktail->save();
