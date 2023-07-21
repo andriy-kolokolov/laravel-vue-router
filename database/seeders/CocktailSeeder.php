@@ -15,7 +15,7 @@ class CocktailSeeder extends Seeder {
      */
     public function run() {
         $apiUrl = 'https://www.thecocktaildb.com/api/json/v1/1/random.php';
-        for ($i = 0; $i < 1; $i++) {
+        for ($i = 0; $i < 65; $i++) {
             $jsonString = file_get_contents($apiUrl);
 
             if ($jsonString !== false) {
