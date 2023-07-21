@@ -11,7 +11,7 @@ class Ingredient extends Model
     protected $fillable = ['name'];
     use HasFactory;
 
-    public function ingredients() {
+    public function cocktails() {
         return $this->belongsToMany(Cocktail::class);
     }
 

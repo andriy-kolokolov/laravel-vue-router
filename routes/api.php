@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\CocktailController;
 
 Route::get('cocktails', [CocktailController::class, 'index'])->name('api.cocktails.index');
 Route::get('cocktails/search', [CocktailController::class, 'search'])->name('api.cocktails.search');
+Route::get('cocktails/searchByIngredient', [CocktailController::class, 'searchByIngredient'])->name('api.cocktails.searchByIngredient');
 Route::get('cocktails/random', [CocktailController::class, 'random'])->name('api.cocktails.random');
 Route::get('cocktails/{id}', [CocktailController::class, 'show'])->name('api.cocktails.show');
 

@@ -7,16 +7,13 @@ use App\Models\Cocktail;
 use App\Models\Ingredient;
 use Illuminate\Http\Request;
 
-class CocktailController extends Controller
-{
-    public function index()
-    {
+class CocktailController extends Controller {
+    public function index() {
         $cocktails = Cocktail::paginate(12);
         return response()->json($cocktails);
     }
 
-    public function show($id)
-    {
+    public function show($id) {
         // Use Eloquent to find the cocktail by its ID in the database
         $cocktail = Cocktail::find($id);
 
@@ -27,15 +24,13 @@ class CocktailController extends Controller
         return response()->json(['data' => $cocktail]);
     }
 
-    public function random()
-    {
+    public function random() {
         $cocktail = Cocktail::inRandomOrder()->first();
 
         return response()->json(['data' => $cocktail]);
     }
 
-    public function search(Request $request)
-    {
+    public function search(Request $request) {
         $searchTerm = $request->input('name');
 
         // Use Eloquent to search for cocktails by name in the database
@@ -99,5 +94,22 @@ class CocktailController extends Controller
             ->get();
 
         return response()->json(['data' => $cocktails]);
+    }
+
+    public function searchByIngredient(Request $request) {
+        // Get the ingredient name from the request
+        $ingredientName = $request->input('name');
+
+        // Search the ingredients table to find the ingredient by name
+        $ingredient = Ingredient::where('name', $ingredientName)->first();
+
+        if ($ingredient) {
+            // If the ingredient is found, retrieve cocktails that include the ingredient
+            $cocktails = $ingredient->cocktails()->get();
+            return response()->json($cocktails);
+        } else {
+            // If the ingredient is not found
+            return response()->json(['message' => 'Ingredient not found'], 404);
+        }
     }
 }
