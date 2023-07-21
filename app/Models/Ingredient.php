@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Ingredient extends Model
 {
     public $timestamps = false;
+    protected $fillable = ['name'];
     use HasFactory;
 
     public function ingredients() {

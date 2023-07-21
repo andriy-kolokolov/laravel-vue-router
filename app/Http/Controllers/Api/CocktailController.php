@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cocktail;
+use App\Models\Ingredient;
 use Illuminate\Http\Request;
 
 class CocktailController extends Controller
@@ -65,11 +66,37 @@ class CocktailController extends Controller
                         $cocktail->save();
                     }
 
-                    // Retrieve the newly added cocktails from the database
-                    $cocktails = Cocktail::where('name', 'LIKE', '%' . $searchTerm . '%')->get();
+                    // Handle the ingredients
+                    for ($i = 1; $i <= 15; $i++) {
+                        $ingredientKey = 'strIngredient' . $i;
+
+                        $ingredientName = $apiCocktail[$ingredientKey];
+
+                        if ($ingredientName) {
+                            // Check if the ingredient already exists in the database
+                            $existingIngredient = Ingredient::where('name', $ingredientName)->first();
+
+                            if (!$existingIngredient) {
+                                // If the ingredient is not found in the database, create a new record
+                                $newIngredient = Ingredient::create([
+                                    'name' => $ingredientName,
+                                ]);
+                                $ingredientId = $newIngredient->id;
+                            } else {
+                                $ingredientId = $existingIngredient->id;
+                            }
+
+                            // Now, sync the pivot table
+                            $cocktail->ingredients()->attach($ingredientId);
+                        }
+                    }
                 }
             }
         }
+
+        $cocktails = Cocktail::where('name', 'LIKE', '%' . $searchTerm . '%')
+            ->with('ingredients')
+            ->get();
 
         return response()->json(['data' => $cocktails]);
     }
