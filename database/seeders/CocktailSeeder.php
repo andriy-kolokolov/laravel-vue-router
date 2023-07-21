@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Cocktail;
+use App\Models\Ingredient;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,7 +15,7 @@ class CocktailSeeder extends Seeder {
      */
     public function run() {
         $apiUrl = 'https://www.thecocktaildb.com/api/json/v1/1/random.php';
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             $jsonString = file_get_contents($apiUrl);
 
             if ($jsonString !== false) {
@@ -29,13 +30,38 @@ class CocktailSeeder extends Seeder {
 
                     if (!$existingCocktail) {
                         // If the cocktail ID is not found in the database, create a new record
-                        Cocktail::create([
-                            'id' => $cocktail[0]['idDrink'], //string
+                        $newCocktail = Cocktail::create([
+                            'id' => $cocktail[0]['idDrink'],
                             'name' => $cocktail[0]['strDrink'],
                             'recipe' => $cocktail[0]['strInstructions'],
                             'image' => $cocktail[0]['strDrinkThumb'],
                             'alcoholic' => $cocktail[0]['strAlcoholic'],
                         ]);
+
+                        // Now, let's handle the ingredients
+                        for ($j = 1; $j <= 15; $j++) {
+                            $ingredientKey = 'strIngredient' . $j;
+
+                            $ingredientName = $cocktail[0][$ingredientKey];
+
+                            if ($ingredientName) {
+                                // Check if the ingredient already exists in the database
+                                $existingIngredient = Ingredient::where('name', $ingredientName)->first();
+
+                                if (!$existingIngredient) {
+                                    // If the ingredient is not found in the database, create a new record
+                                    $newIngredient = Ingredient::create([
+                                        'name' => $ingredientName,
+                                    ]);
+                                    $ingredientId = $newIngredient->id;
+                                } else {
+                                    $ingredientId = $existingIngredient->id;
+                                }
+
+                                // Now, sync the pivot table
+                                $newCocktail->ingredients()->attach($ingredientId);
+                            }
+                        }
                     }
                 }
             }

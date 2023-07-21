@@ -21,8 +21,6 @@ return new class extends Migration
             // Foreign key constraints
             $table->foreign('cocktail_id')->references('id')->on('cocktails')->onDelete('cascade');
             $table->foreign('ingredient_id')->references('id')->on('ingredients')->onDelete('cascade');
-
-            $table->timestamps();
         });
     }
 

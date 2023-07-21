@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cocktail extends Model
 {
+    public $timestamps = false;
     use HasFactory;
 
-    public $timestamps = false;
+    public function ingredients() {
+        return $this->belongsToMany(Ingredient::class);
+    }
 }

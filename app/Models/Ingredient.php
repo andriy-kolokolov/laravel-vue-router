@@ -10,4 +10,8 @@ class Ingredient extends Model
     public $timestamps = false;
     use HasFactory;
 
+    public function ingredients() {
+        return $this->belongsToMany(Cocktail::class);
+    }
+
 }
